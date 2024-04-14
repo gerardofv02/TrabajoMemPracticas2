@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  front:
+    image: denoland/deno:1.42.0 #contenedor con node 18
+    ports:
+      - 8000:8000 #el privado lo redireccione al público
+    volumes:
+      - ./front:/usr/src
+    depends_on:
+      - back #depende del back es decir que no se lance el front hasta que el back no este levantado
+    command: bash -c "cd /usr/src && deno task debug" # comando para ejecutar el front. Que se vaya a donde esta el front(/usr/src) y que ejecute con el comendo de la derecha
+    environment: #variables de entorno
+      - SSR_HOST=http://back:3000 #esta seria la de nuestro back creado
+      - CSR_HOST=http://localhost:3000
+  back:
+    image: denoland/deno:1.42.0
+    ports:
+      - 3000:3000
+    volumes:
+      - ./back:/usr/src
+    command: bash -c "cd /usr/src && deno task dev"

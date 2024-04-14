@@ -1,0 +1,10 @@
+
+{
+    "imports": {
+      "oak": "https://deno.land/x/oak@v11.1.0/mod.ts",
+      "mongo": "https://deno.land/x/mongo@v0.31.1/mod.ts",
+      "std/": "https://deno.land/std@0.161.0/",
+      "env": "https://deno.land/x/dotenv/mod.ts",
+      "router": "https://deno.land/x/oak@v11.1.0/router.ts"
+    }
+  }
