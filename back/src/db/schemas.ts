@@ -1,4 +1,4 @@
-import { Pelicula } from "../types.ts";
+import { Pelicula, Usuario } from "../types.ts";
 import { ObjectId } from "mongo";
 
 export type PeliculaSchema = Omit<Pelicula, "pelicula"> & {
@@ -10,3 +10,10 @@ export type PeliculaSchema = Omit<Pelicula, "pelicula"> & {
   comentarios: string,
   plataforma: string,
 };
+
+export type UserSchema = Omit<Usuario, "usuario"> & {
+  _id: ObjectId,
+  username: string,
+  password:string,
+  correo: string,
+}

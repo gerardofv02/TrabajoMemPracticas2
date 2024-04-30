@@ -7,3 +7,9 @@ export type Pelicula = {
     comentarios: string,
     platadorma: string
 }
+
+export type Usuario = {
+    username: string,
+    password: string,
+    correo: string,
+}

@@ -1,48 +1,28 @@
-import { RouterContext } from "https://deno.land/x/oak@v12.5.0/mod.ts";
 import { PeliculaSchema } from '../db/schemas.ts';
 import { pelisCollection } from "../db/mongo.ts";
 import { ObjectId } from 'https://deno.land/x/web_bson@v0.2.5/mod.ts';
-type deletePeliContext = RouterContext<
+import { Request, Response } from "express";
 
-"/deletePeli/:_id", {
-    _id: string;
-  } & Record<string | number, string | undefined>, 
-  Record<string, any>
-
->
 ;
-export const deletePeli = async(context : deletePeliContext) => {
+export const deletePeli = async(req: Request, res: Response) => {
 
     try{
-        console.log(context.params._id);
-        if(context.params?._id){
+        const {_id} = req.params;
+        if(_id){
             const Peli: PeliculaSchema | undefined = await pelisCollection.findOne({
-                _id: new ObjectId(context.params._id),
+                _id: new ObjectId(_id),
             });
             console.log(Peli);
             if(Peli){
-                await pelisCollection.deleteOne({_id : new ObjectId(context.params._id)});
-                context.response.body= {
-                    message: "Eliminado corrrectamente",
-                
-                }
-                context.response.status = 200;
+                await pelisCollection.deleteOne({_id : new ObjectId(_id)});
+                res.status(200).send("Deleted successfully")
             }
             else{
-            context.response.status = 404;
-            context.response.body = {
-                message:"No encontrada"
-            }
+                res.status(404).send("Not found")
         }
         }
-        context.response.status = 404;
+        res.status(400)
     }catch(e){
-        context.response.status = 404;
-        context.response.body = {
-
-                message: "Error:",
-
-            e
-        }
+        res.status(500).send("Error: ",e)
     }
 }

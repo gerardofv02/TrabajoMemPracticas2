@@ -1,88 +1,54 @@
-
-import { RouterContext } from "https://deno.land/x/oak@v12.5.0/mod.ts";
 import { pelisCollection } from "../db/mongo.ts";
 import { Pelicula } from '../types.ts';
 import { PeliculaSchema } from '../db/schemas.ts';
-type GetPelisContext = RouterContext<
-  "/getPelisTipo/:tipo",
-  Record<string | number, string | undefined>,
-  Record<string, any>
->;
-
-type GetPeliContext = RouterContext<
-
-"/getPeli/:name", {
-    name: string;
-  } & Record<string | number, string | undefined>, 
-  Record<string, any>
-
->
-;
+import { Request, Response } from "express";
 
 
-export const getPelis = async(context:any) => {
+
+export const getPelis = async(_req: Request, res: Response) => {
     try {
         const peliDB   = await pelisCollection.find((peli:Pelicula) => {return peli}).toArray()
-        context.response.body = {
-          peliDB,
-        }
+        res.status(200).send(peliDB)
     }catch(e){
-        context.response.body = {
-
-                message: "Error:",
-
-            e
-        }
+        res.status(500).send(e)
     }
 }
 
-export const getPelisTipos = async(context: GetPelisContext):Promise<PeliculaSchema[]|undefined> => {
+export const getPelisTipos = async(req: Request, res: Response) => {
     try{
-        if(context.params?.tipo){
-        const peliDB :PeliculaSchema[] = await pelisCollection.find({tipo: context.params.tipo}).toArray();
+        const {tipo} = req.params
+        if(tipo){
+        const peliDB :PeliculaSchema[] = await pelisCollection.find({tipo: tipo}).toArray();
         console.log(peliDB);
         if(peliDB){
-        context.response.body = {
-            peliDB,
-        }
-          return peliDB;
+        res.status(200).send(peliDB)
+        return;
         }
         }
-        context.response.status = 404;
+        res.status(404)
     }catch(e){
-        context.response.body = {
-
-                message: "Error:",
-
-            e
-        }
+        res.status(500).send(e)
         
     }
 }
 
-export const getPeli = async(context : GetPeliContext) => {
+export const getPeli = async(req: Request, res: Response) => {
 
     try{
-        if(context.params?.name){
+        const {name} = req.params
+        if(name){
             const Peli: PeliculaSchema | undefined = await pelisCollection.findOne({
-                name: context.params.name,
+                name: name,
             });
+            console.log(Peli)
             if(Peli){
-                context.response.body= {
-                    Peli,
-                }
+                res.status(200).send(Peli)
                 return ;
             }
         }
-        context.response.status = 404;
+        res.status(404).send("Not found")
     }catch(e){
-        context.response.status = 404;
-        context.response.body = {
-
-                message: "Error:",
-
-            e
-        }
+        res.status(500).send(e)
     }
 }
 

@@ -1,9 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 import { pelicula } from "../types.ts";
 
-type Data = {
-  peliDB: pelicula[];
-};
 
 const Peliculas = () => {
   const [data, setData] = useState<pelicula[]>([]);
@@ -21,9 +18,9 @@ const Peliculas = () => {
     if (res.status !== 200) {
       throw new Response("Error fetching data", { status: 400 });
     }
-    const pelis: Data = await res.json();
-    console.log(pelis.peliDB);
-    setData(pelis.peliDB);
+    const pelis: pelicula[] = await res.json();
+    console.log(pelis)
+    setData(pelis);
   };
   const eliminar = async (id: string) => {
     const prueba = await fetch(`http://localhost:3000/deletePeli/${id}`, {
@@ -35,6 +32,7 @@ const Peliculas = () => {
     } else {
       setError(true);
     }
+    getData();
   };
   async function postPeli() {
     const introducir: Partial<pelicula> = {
@@ -78,10 +76,11 @@ const Peliculas = () => {
         {data && data.map((peli) => {
           console.log(peli.image);
           return (
-            <div class="pelisola">
+            <a class="pelisola" href={`/peli/${peli._id}`} key={peli._id}>
               <h1>{peli.name}</h1>
               <img src={`${peli.image}`} />
-            </div>
+              <button onClick={() => { eliminar(peli._id) }}>Eliminar</button>
+            </a>
           );
         })}
       </div>

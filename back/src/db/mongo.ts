@@ -1,6 +1,7 @@
 import { MongoClient, Database } from "mongo";
 import { config } from "https://deno.land/x/dotenv@v3.2.0/mod.ts";
 import{PeliculaSchema} from "./schemas.ts";
+import { UserSchema } from "./schemas.ts";
 
 await config({ export: true, allowEmptyValues: true });
 
@@ -29,3 +30,4 @@ console.info("Mongodb connected");
 
 console.info(`MongoDB ${db.name} connected`);
 export const pelisCollection = db.collection<PeliculaSchema>("Pelicula");
+export const usersCollection = db.collection<UserSchema>("Usuario")
