@@ -1,4 +1,3 @@
-
 import { create, Header, Payload, verify } from "djwt";
 import { Usuario } from "../types.ts";
 
@@ -11,13 +10,13 @@ const generateKey = async (secretKey: string): Promise<CryptoKey> => {
     keyBuf,
     { name: "HMAC", hash: "SHA-256" },
     true,
-    ["sign", "verify"]
+    ["sign", "verify"],
   );
 };
 
 export const createJWT = async (
   payload: Usuario,
-  secretKey: string
+  secretKey: string,
 ): Promise<string> => {
   const header: Header = {
     alg: "HS256",
@@ -30,9 +29,9 @@ export const createJWT = async (
 
 export const verifyJWT = async (
   token: string,
-  secretKey: string
+  secretKey: string,
 ): Promise<Payload> => {
-  try {z
+  try {
     const key = await generateKey(secretKey);
     return await verify(token, key);
   } catch (error) {
