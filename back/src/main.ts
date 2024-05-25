@@ -1,5 +1,10 @@
 import { Application, Router } from "https://deno.land/x/oak@v11.1.0/mod.ts";
-import { getPeli, getPelis, getPelisTipos } from "./resolvers/get.ts";
+import {
+  getPeli,
+  getPelis,
+  getPelisTipos,
+  getPelisUser,
+} from "./resolvers/get.ts";
 import { addPeli, createUser, login, verifyLoaded } from "./resolvers/post.ts";
 import { deletePeli } from "./resolvers/delete.ts";
 import express from "express";
@@ -18,7 +23,8 @@ miapp
   .delete("/deletePeli/:_id", deletePeli)
   .post("/createUser", createUser)
   .post("/login", login)
-  .post("/verifyLoaded", verifyLoaded);
+  .post("/verifyLoaded", verifyLoaded)
+  .get("/getPelisUser/:auth", getPelisUser);
 
 miapp.listen(3000, (): void => {
   console.log("Sever ready on: http://localhost:3000/");

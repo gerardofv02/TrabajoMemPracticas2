@@ -14,7 +14,11 @@ const Peliculas = () => {
   const [error, setError] = useState<boolean>(false);
 
   const getData = async () => {
-    const res = await fetch("http://localhost:3000/getPelis");
+    console.log("EStoy")
+    const res = await fetch("http://localhost:3000/getPelisUser/eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImxtYXNzZCIsInBhc3N3b3JkIjoiJDJhJDEwJEQ5ZktDUUZUZU5KTmtNVHhhaVQ2Qi5hUUNFeU5XS0lOeDhZNXVJWTJ0azZUQm9RSnR5dTJTIiwiY29ycmVvIjoib2puYXNzZEBta2Euc2EiLCJwZWxpY3VsYXMiOlsiNjRjOTNlMWFlOTY5OTVmOTEyNGIyY2JhIl19.aaqPlr2eDlJ3yVrL-3woa3fO81hqHAgGwqxnHrrLaX0", {
+      method: "GET",
+    });
+    console.log("STATUS: ", res.status)
     if (res.status !== 200) {
       throw new Response("Error fetching data", { status: 400 });
     }

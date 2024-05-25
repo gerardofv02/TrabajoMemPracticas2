@@ -42,8 +42,9 @@ export const addPeli = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
+    console.log("Username: ", username, "PAssword: ", password)
     if (!username || !password) {
-      res.status(404).send("Need values");
+      res.status(404).send({message: "Need values"});
       return;
     }
     const hash = await bcrypt.hash(password);
@@ -61,6 +62,7 @@ export const login = async (req: Request, res: Response) => {
       username: user.username,
       password: hash,
       correo: user.correo,
+      peliculas: user.peliculas,
     }, Deno.env.get("JWT_SECRET")!);
     console.log("JEJE ");
     res.status(200).send({ message: token });
@@ -86,6 +88,7 @@ export const createUser = async (req: Request, res: Response) => {
       username: username,
       password: hash,
       correo: correo,
+      peliculas: [],
     };
     const token = await createJWT(usuario, Deno.env.get("JWT_SECRET")!);
     res.status(200).send({ token: token, message: "User created correctly" });
@@ -107,7 +110,7 @@ export const verifyLoaded = async (req: Request, res: Response) => {
     } else {
       const user = await verifyJWT(auth, Deno.env.get("JWT_SECRET")!);
       console.log(user);
-      if (!user.usename) {
+      if (!user.username!) {
         const data = {
           message: "bad",
         };

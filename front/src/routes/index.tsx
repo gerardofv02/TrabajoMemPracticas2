@@ -1,3 +1,16 @@
+import { FreshContext, Handlers } from "$fresh/server.ts";
+
+export const handler: Handlers = {
+  GET: (_req: Request, ctx: FreshContext) => {
+    return new Response("", {
+      headers: {
+        location: "/listado",
+      },
+      status: 303
+    })
+  }
+}
+
 export default function Home() {
   return (
     <div>

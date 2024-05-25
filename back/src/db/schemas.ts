@@ -3,17 +3,18 @@ import { ObjectId } from "mongo";
 
 export type PeliculaSchema = Omit<Pelicula, "pelicula"> & {
   _id: ObjectId;
-  name: string,
-  tipo: string,
-  duracion: number,
-  pelicula: string,
-  comentarios: string,
-  plataforma: string,
+  name: string;
+  tipo: string;
+  duracion: number;
+  pelicula: string;
+  comentarios: string;
+  plataforma: string;
 };
 
 export type UserSchema = Omit<Usuario, "usuario"> & {
-  _id: ObjectId,
-  username: string,
-  password:string,
-  correo: string,
-}
+  _id: ObjectId;
+  username: string;
+  password: string;
+  correo: string;
+  peliculas: ObjectId[];
+};
