@@ -3,7 +3,7 @@ import { ObjectId } from "https://deno.land/x/web_bson@v0.2.5/mod.ts";
 export type Pelicula = {
   tipo: string;
   name: string;
-  valoracion: number;
+  valoracion: number[];
   duracion: number;
   image: string;
   comentarios: string;

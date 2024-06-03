@@ -12,8 +12,10 @@ export const getPelis = async (_req: Request, res: Response) => {
       return peli;
     }).toArray();
     res.status(200).send(peliDB);
+    return;
   } catch (e) {
     res.status(500).send(e);
+    return;
   }
 };
 export const getPelisUser = async (req: Request, res: Response) => {
@@ -23,10 +25,11 @@ export const getPelisUser = async (req: Request, res: Response) => {
     console.log("Auth: ", auth);
     if(!auth){
       res.status(404).send({message: "Auth not given"})
+      return;
     }
 
     const payload :Payload = await verifyJWT(auth, Deno.env.get("JWT_SECRET")!)
-    console.log(payload)
+    console.log("Mi payload es este: ",payload)
 
     const user = await usersCollection.findOne({ username: payload.username! });
     console.log(user);
@@ -38,9 +41,8 @@ export const getPelisUser = async (req: Request, res: Response) => {
 
     const pelisPromises: Promise<PeliculaSchema | undefined>[] = misPeliculas.map(
       async (p: ObjectId) => {
-        console.log("p: ", p);
         const peli = await pelisCollection.findOne({ _id: p });
-        console.log("peli: ", peli);
+        console.log("peli finding: ", peli);
         return peli;
       },
     );
@@ -49,29 +51,63 @@ export const getPelisUser = async (req: Request, res: Response) => {
     console.log("Mispelis de user", peliDB);
     if (peliDB.length === 0) {
       res.status(404).send({ message: "Pelis not found" });
+      return;
     }
     res.status(200).send(peliDB);
+    return;
   } catch (e) {
     res.status(500).send({ message: e });
+    return;
   }
 };
 
 export const getPelisTipos = async (req: Request, res: Response) => {
   try {
-    const { tipo } = req.params;
+    const { tipo , auth} = req.params;
+    if(!auth){
+      res.status(405).send({message: "Not logged case"})
+      return;
+    }
+    console.log(tipo,auth)
+
+    const payload :Payload = await verifyJWT(auth, Deno.env.get("JWT_SECRET")!)
+    console.log("Mi payload es este: ",payload)
+
+    const user = await usersCollection.findOne({ username: payload.username! });
+    console.log(user);
+    if(!user){
+      res.status(404).send({message:"User not found"})
+      return;
+    }
+    
     if (tipo) {
-      const peliDB: PeliculaSchema[] = await pelisCollection.find({
-        tipo: tipo,
-      }).toArray();
-      console.log(peliDB);
+      const misPeliculas = user!.peliculas;
+      const pelisPromises: Promise<PeliculaSchema | undefined>[] = misPeliculas.map(
+        async (p: ObjectId) => {
+          const peli = await pelisCollection.findOne({ _id: p });
+          console.log("peli finding: ", peli);
+          return peli;
+        },
+      );
+      const peliParaFiltrar = await Promise.all(pelisPromises);
+      console.log("PELIS PARA FILTRAR: ", peliParaFiltrar)
+      if(!peliParaFiltrar){
+        res.send(404).status({message: "No tienes películas"})
+        return;
+      }
+      const peliDB: (PeliculaSchema| undefined)[] = peliParaFiltrar.filter((pe) => pe!.tipo === tipo)
+      console.log("PELIS FIKTRADAS: ",peliDB);
       if (peliDB) {
         res.status(200).send(peliDB);
         return;
       }
+      
     }
-    res.status(404);
+    res.status(404).send({message: "No tipo elegido"});
+    return;
   } catch (e) {
     res.status(500).send(e);
+    return;
   }
 };
 
@@ -88,8 +124,10 @@ export const getPeli = async (req: Request, res: Response) => {
         return;
       }
     }
-    res.status(404).send("Not found");
+    res.status(404).send({message: "Not found"});
+    return;
   } catch (e) {
-    res.status(500).send(e);
+    res.status(500).send({message: e});
+    return;
   }
 };

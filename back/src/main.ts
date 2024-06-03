@@ -17,7 +17,7 @@ miapp.use(express.json());
 miapp.use(cors());
 miapp
   .get("/getPelis", getPelis)
-  .get("/getPelisTipos/:tipo", getPelisTipos)
+  .get("/getPelisTipos/:tipo/:auth", getPelisTipos)
   .get("/getPeli/:name", getPeli)
   .post("/addPeli", addPeli)
   .delete("/deletePeli/:_id", deletePeli)

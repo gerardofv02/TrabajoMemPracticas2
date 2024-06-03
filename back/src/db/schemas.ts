@@ -4,10 +4,11 @@ import { ObjectId } from "mongo";
 export type PeliculaSchema = Omit<Pelicula, "pelicula"> & {
   _id: ObjectId;
   name: string;
+  valoracion:number[];
   tipo: string;
-  duracion: number;
+  duracion: number[];
   pelicula: string;
-  comentarios: string;
+  comentarios: string[];
   plataforma: string;
 };
 

@@ -1,6 +1,10 @@
 import { FreshContext, Handler, Handlers, PageProps } from "$fresh/server.ts";
 import { setCookie } from "$std/http/cookie.ts";
+import { RouteConfig } from "$fresh/server.ts";
 
+export const config: RouteConfig = {
+  skipInheritedLayouts: true, // Skip already inherited layouts
+};
 type Data = {
   message: string;
 };
@@ -56,17 +60,18 @@ export const handler: Handlers = {
 
 const Page = (props: PageProps<{ message: string }>) => {
   return (
-    <>
-      {props.data && props.data.message}
+    <div>
       <form class="container-login" method="post">
         <h1>Login</h1>
         <label for="username">Username</label>
-        <input type="text" name="username" placeholder="username" required />
+        <input class="input-login" type="text" name="username" placeholder="username" required />
         <label for="password">Password</label>
-        <input type="password" name="password" placeholder="password" required />
+        <input class="input-login" type="password" name="password" placeholder="password" required />
+        {props.data && <div id="error-message">{props.data.message}</div>}
         <button type="submit">Login</button>
       </form>
-    </>
+      <div id="cuenta-creacion">¿No tienes cuenta? <strong><a href="/createUser">¡Createla!</a></strong></div>
+    </div>
   );
 };
 export default Page;

@@ -4,12 +4,18 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $_layout from "./routes/_layout.tsx";
 import * as $_middleware from "./routes/_middleware.tsx";
+import * as $addPeli from "./routes/addPeli.tsx";
+import * as $createUser from "./routes/createUser.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $listado from "./routes/listado.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $login2 from "./routes/login2.tsx";
+import * as $peli_name_ from "./routes/peli/[name].tsx";
 import * as $tipos_tipo_ from "./routes/tipos/[tipo].tsx";
+import * as $Logout from "./islands/Logout.tsx";
+import * as $Peli from "./islands/Peli.tsx";
 import * as $Peliculas from "./islands/Peliculas.tsx";
 import * as $Tipos from "./islands/Tipos.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -18,14 +24,20 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/_layout.tsx": $_layout,
     "./routes/_middleware.tsx": $_middleware,
+    "./routes/addPeli.tsx": $addPeli,
+    "./routes/createUser.tsx": $createUser,
     "./routes/index.tsx": $index,
     "./routes/listado.tsx": $listado,
     "./routes/login.tsx": $login,
     "./routes/login2.tsx": $login2,
+    "./routes/peli/[name].tsx": $peli_name_,
     "./routes/tipos/[tipo].tsx": $tipos_tipo_,
   },
   islands: {
+    "./islands/Logout.tsx": $Logout,
+    "./islands/Peli.tsx": $Peli,
     "./islands/Peliculas.tsx": $Peliculas,
     "./islands/Tipos.tsx": $Tipos,
   },
