@@ -9,7 +9,7 @@ services:
       - ./front:/usr/src
     depends_on:
       - back #depende del back es decir que no se lance el front hasta que el back no este levantado
-    command: bash -c "cd /usr/src && deno task debug" # comando para ejecutar el front. Que se vaya a donde esta el front(/usr/src) y que ejecute con el comendo de la derecha
+    command: bash -c "cd /usr/src && deno task start" # comando para ejecutar el front. Que se vaya a donde esta el front(/usr/src) y que ejecute con el comendo de la derecha
     environment: #variables de entorno
       - SSR_HOST=http://back:3000 #esta seria la de nuestro back creado
       - CSR_HOST=http://localhost:3000
