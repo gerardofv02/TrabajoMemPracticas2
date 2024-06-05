@@ -12,16 +12,18 @@ Para poder hacer el uso correcto de esta aplicación se han de seguir unos pasos
     ## Windows
 
     - Ir a https://www.docker.com/get-started/
-    - Descargar la aplicación dándole al botón de "Download for windows"![Botón descarga docker](image.png)
+    - Descargar la aplicación dándole al botón de "Download for windows"
+    ![Botón descarga docker](image.png)
     - Una vez instalado, y se tenga una cuenta de docker, se abre la aplicación.
     - Dentro de la ruta de nuestro proyecto, en la terminal, se pone el comando "docker-compose up --build"
 
     ## Linux
 
-3. Una vez tengamos instalado la aplicación, nos dirigimos a nuestra ruta del proyecto. Dentro de la carpeta back, creamos un archivo que se llame .env. Las variables que se deben contener dentro de este archivo serán las mismas que las que hay en el archivo env.sample. 
+3. Una vez tengamos instalado la aplicación, nos dirigimos a nuestra ruta del proyecto. Dentro de la carpeta ***back***, creamos un archivo que se llame ***.env***. Las variables que se deben contener dentro de este archivo serán las mismas que las que hay en el archivo ***env.sample***. 
 
 4. Asignación de variables:
-    - MONGO_URI: Esta variable se podrá encontrar en nuestra cuenta de mongodb online. Para encontrarla se tendría que entrar dentro del cluster que se tenga creado y sería la clave primaria (Primary) dentro de las claves que existen dentro del campo de región: ![alt text](image-1.png)
+    - MONGO_URI: Esta variable se podrá encontrar en nuestra cuenta de mongodb online. Para encontrarla se tendría que entrar dentro del cluster que se tenga creado y sería la clave primaria (Primary) dentro de las claves que existen dentro del campo de región: 
+    ![alt text](image-1.png)
     - PORT: El puerto con el que trabaja mongodb es 27017
     - MONGO_USR: Usuario de mongo para la conexión online
     - MONGO_PWD: Contraseña de mongo para la conexión online
