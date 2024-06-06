@@ -6,23 +6,23 @@ export const handler: Handler = async (req: Request, ctx: FreshContext) => {
     const res = await ctx.next();
     return res;
   }
-  //console.log("Hola");
+  ////console.log("Hola");
 
   if (ctx.route === "/login") {
     const res = await ctx.next();
-    //console.log("jeje");
+    ////console.log("jeje");
     return res;
   }
-  //console.log("Estoy");
+  ////console.log("Estoy");
   if (ctx.route === "/createUser") {
     const res = await ctx.next();
-    //console.log("jiji");
+    ////console.log("jiji");
     return res;
   }
-  //console.log("Estoy create")
+  ////console.log("Estoy create")
   const cookies = getCookies(req.headers);
   const auth = cookies.auth;
-  //console.log("Auth: ", auth);
+  ////console.log("Auth: ", auth);
   if (!auth) {
     return new Response("", {
       status: 307,
@@ -43,7 +43,7 @@ export const handler: Handler = async (req: Request, ctx: FreshContext) => {
     body: JSON.stringify(mybody),
   });
 
-  //console.log(verify.status);
+  ////console.log(verify.status);
 
   const verRes = await verify.json();
 
@@ -56,10 +56,10 @@ export const handler: Handler = async (req: Request, ctx: FreshContext) => {
     });
   }
 
-  //console.log("He llegado al final y esta todo bien");
+  ////console.log("He llegado al final y esta todo bien");
 
   // const payload = jwt.verify(auth, "mysupersecret");
   const res = await ctx.next();
-  //console.log("route: ", ctx.route);
+  ////console.log("route: ", ctx.route);
   return res;
 };

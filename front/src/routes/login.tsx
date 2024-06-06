@@ -14,11 +14,11 @@ export const handler: Handlers = {
     const form = await req.formData();
     const username = form.get("username");
     const password = form.get("password");
-    console.log("Username: ", username, "Password: ", password)
+    //console.log("Username: ", username, "Password: ", password)
     if (!username || !password) {
       return ctx.render({ message: "Need values front" });
     }
-    console.log("Ahora vamos por aquio")
+    //console.log("Ahora vamos por aquio")
     const data = {
       username: username,
       password: password,
@@ -28,8 +28,8 @@ export const handler: Handlers = {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
-        "Content-type": "Application/json"
-      }
+        "Content-type": "Application/json",
+      },
     });
 
     if (res.status !== 200) {
@@ -37,7 +37,7 @@ export const handler: Handlers = {
       return ctx.render({ message: body!.message });
     }
     const body = await res.json();
-    console.log("Mibody", body);
+    //console.log("Mibody", body);
     const headers = new Headers();
     setCookie(headers, {
       name: "auth",
@@ -49,7 +49,7 @@ export const handler: Handlers = {
     });
 
     headers.set("location", "/listado");
-    console.log("Aqui llego perfectamente");
+    //console.log("Aqui llego perfectamente");
 
     return new Response(null, {
       status: 303,
@@ -64,13 +64,30 @@ const Page = (props: PageProps<{ message: string }>) => {
       <form class="container-login" method="post">
         <h1>Login</h1>
         <label for="username">Username</label>
-        <input class="input-login" type="text" name="username" placeholder="username" required />
+        <input
+          class="input-login"
+          type="text"
+          name="username"
+          placeholder="username"
+          required
+        />
         <label for="password">Password</label>
-        <input class="input-login" type="password" name="password" placeholder="password" required />
+        <input
+          class="input-login"
+          type="password"
+          name="password"
+          placeholder="password"
+          required
+        />
         {props.data && <div id="error-message">{props.data.message}</div>}
         <button type="submit">Login</button>
       </form>
-      <div id="cuenta-creacion">¿No tienes cuenta? <strong><a href="/createUser">¡Createla!</a></strong></div>
+      <div id="cuenta-creacion">
+        ¿No tienes cuenta?{" "}
+        <strong>
+          <a href="/createUser">¡Createla!</a>
+        </strong>
+      </div>
     </div>
   );
 };
